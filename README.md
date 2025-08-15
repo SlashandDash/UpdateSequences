@@ -5,9 +5,13 @@ A mod that adds/updates sequences from my seq repository to your Sequenced Folde
 commands :
 
 !seq help
+
 !seq fetch
+
 !seq list
+
 !seq enable/disable all
+
 !seq enable/disable [DIFFICULTY]
 
 [DIFFICULTY] = easy, normal, hard, harder, insane
