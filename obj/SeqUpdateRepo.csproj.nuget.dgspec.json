@@ -1,0 +1,80 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/slash/Code/crabGaming/SeqUpdateRepo.csproj": {}
+  },
+  "projects": {
+    "/home/slash/Code/crabGaming/SeqUpdateRepo.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/slash/Code/crabGaming/SeqUpdateRepo.csproj",
+        "projectName": "SeqUpdateRepo",
+        "projectPath": "/home/slash/Code/crabGaming/SeqUpdateRepo.csproj",
+        "packagesPath": "/home/slash/.nuget/packages/",
+        "outputPath": "/home/slash/Code/crabGaming/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/slash/Code/crabGaming/NuGet.Config",
+          "/home/slash/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.bepinex.dev/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "dependencies": {
+            "BepInEx.IL2CPP": {
+              "include": "Compile",
+              "target": "Package",
+              "version": "[6.0.0-*, )"
+            },
+            "BepInEx.PluginInfoProps": {
+              "target": "Package",
+              "version": "[1.*, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/nix/store/3kw2l9h5gxk8ak8pzkdlsi2ijkb287h6-dotnet-sdk-9.0.109/share/dotnet/sdk/9.0.109/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
