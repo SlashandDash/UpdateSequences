@@ -12,6 +12,4 @@ commands :
 
 !seq enable/disable all
 
-!seq enable/disable [DIFFICULTY]
-
-[DIFFICULTY] = easy, normal, hard, harder, insane
+!seq enable/disable easy/normal/hard/harder/insane
