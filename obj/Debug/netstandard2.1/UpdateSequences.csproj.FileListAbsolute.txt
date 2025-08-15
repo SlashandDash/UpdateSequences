@@ -93,3 +93,4 @@
 /home/slash/Code/crabGaming/obj/Debug/netstandard2.1/UpdateSe.F1B47DA9.Up2Date
 /home/slash/Code/crabGaming/obj/Debug/netstandard2.1/UpdateSequences.dll
 /home/slash/Code/crabGaming/obj/Debug/netstandard2.1/UpdateSequences.pdb
+/home/slash/Code/crabGaming/obj/Debug/netstandard2.1/UpdateSequences.sourcelink.json
