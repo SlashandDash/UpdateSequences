@@ -4,12 +4,12 @@ A mod that adds/updates sequences from my seq repository to your Sequenced Folde
 
 commands :
 
-!seq help
+.seq help
 
-!seq fetch
+.seq fetch
 
-!seq list
+.seq list
 
-!seq enable/disable all
+.seq enable/disable all
 
-!seq enable/disable easy/normal/hard/harder/insane
+.seq enable/disable easy/normal/hard/harder/insane
