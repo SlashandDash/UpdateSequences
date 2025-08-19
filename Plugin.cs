@@ -580,11 +580,11 @@ namespace UpdateSequences
 
             if (param_1 == ".seq help")
             {
-                GameUiChatBox.Instance.ForceMessage("seq help");
-                GameUiChatBox.Instance.ForceMessage("seq fetch");
-                GameUiChatBox.Instance.ForceMessage("seq list");
-                GameUiChatBox.Instance.ForceMessage("seq enable/disable [DIFFICULTY]");
-                GameUiChatBox.Instance.ForceMessage("seq enable/disable all");
+                GameUiChatBox.Instance.ForceMessage(".seq help");
+                GameUiChatBox.Instance.ForceMessage(".seq fetch");
+                GameUiChatBox.Instance.ForceMessage(".seq list");
+                GameUiChatBox.Instance.ForceMessage(".seq enable/disable [DIFFICULTY]");
+                GameUiChatBox.Instance.ForceMessage(".seq enable/disable all");
                 GameUiChatBox.Instance.ForceMessage("[DIFFICULTY] = easy, normal, hard, harder, insane");
             }
 
