@@ -225,7 +225,7 @@ namespace UpdateSequences
         [HarmonyPrefix]
         static async void OnSendMessagePre(string param_1)
         {
-            if (param_1 == "seq fetch")
+            if (param_1 == ".seq fetch")
             {
                 GameUiChatBox.Instance.ForceMessage("Fetching Sequenced Repository ...");
 
@@ -286,7 +286,7 @@ namespace UpdateSequences
                 File.Delete(tempCommitHash_path);
             }
 
-            if (param_1 == "seq disable easy")
+            if (param_1 == ".seq disable easy")
             {
                 if (seqBoolDifficulty[0] == false)
                 {
@@ -308,7 +308,7 @@ namespace UpdateSequences
 
             }
 
-            if (param_1 == "seq enable easy")
+            if (param_1 == ".seq enable easy")
             {
                 if (seqBoolDifficulty[0] == true)
                 {
@@ -330,7 +330,7 @@ namespace UpdateSequences
 
             }
 
-            if (param_1 == "seq disable normal")
+            if (param_1 == ".seq disable normal")
             {
                 if (seqBoolDifficulty[1] == false)
                 {
@@ -352,7 +352,7 @@ namespace UpdateSequences
 
             }
 
-            if (param_1 == "seq enable normal")
+            if (param_1 == ".seq enable normal")
             {
 
 
@@ -378,7 +378,7 @@ namespace UpdateSequences
 
             }
 
-            if (param_1 == "seq disable hard")
+            if (param_1 == ".seq disable hard")
             {
                 if (seqBoolDifficulty[2] == false)
                 {
@@ -400,7 +400,7 @@ namespace UpdateSequences
 
             }
 
-            if (param_1 == "seq enable hard")
+            if (param_1 == ".seq enable hard")
             {
                 if (seqBoolDifficulty[2] == true)
                 {
@@ -422,7 +422,7 @@ namespace UpdateSequences
 
             }
 
-            if (param_1 == "seq disable harder")
+            if (param_1 == ".seq disable harder")
             {
                 if (seqBoolDifficulty[3] == false)
                 {
@@ -445,7 +445,7 @@ namespace UpdateSequences
 
             }
 
-            if (param_1 == "seq enable harder")
+            if (param_1 == ".seq enable harder")
             {
                 if (seqBoolDifficulty[3] == true)
                 {
@@ -468,7 +468,7 @@ namespace UpdateSequences
 
             }
 
-            if (param_1 == "seq disable insane")
+            if (param_1 == ".seq disable insane")
             {
                 if (seqBoolDifficulty[4] == false)
                 {
@@ -491,7 +491,7 @@ namespace UpdateSequences
 
             }
 
-            if (param_1 == "seq enable insane")
+            if (param_1 == ".seq enable insane")
             {
                 if (seqBoolDifficulty[4] == true)
                 {
@@ -514,7 +514,7 @@ namespace UpdateSequences
 
             }
 
-            if (param_1 == "seq list")
+            if (param_1 == ".seq list")
             {
                 GameUiChatBox.Instance.ForceMessage("Easy = " + seqBoolDifficulty[0].ToString());
                 GameUiChatBox.Instance.ForceMessage("Normal = " + seqBoolDifficulty[1].ToString());
@@ -523,7 +523,7 @@ namespace UpdateSequences
                 GameUiChatBox.Instance.ForceMessage("Insane = " + seqBoolDifficulty[4].ToString());
             }
 
-            if (param_1 == "seq enable all")
+            if (param_1 == ".seq enable all")
             {
 
                 if (seqBoolDifficulty[0] == true && seqBoolDifficulty[1] == true && seqBoolDifficulty[2] == true && seqBoolDifficulty[3] == true && seqBoolDifficulty[4] == true)
@@ -550,7 +550,7 @@ namespace UpdateSequences
                 CopyFiles();
             }
 
-            if (param_1 == "seq disable all")
+            if (param_1 == ".seq disable all")
             {
 
                 if (seqBoolDifficulty[0] == false && seqBoolDifficulty[1] == false && seqBoolDifficulty[2] == false && seqBoolDifficulty[3] == false && seqBoolDifficulty[4] == false)
@@ -578,7 +578,7 @@ namespace UpdateSequences
             }
 
 
-            if (param_1 == "seq help")
+            if (param_1 == ".seq help")
             {
                 GameUiChatBox.Instance.ForceMessage("seq help");
                 GameUiChatBox.Instance.ForceMessage("seq fetch");

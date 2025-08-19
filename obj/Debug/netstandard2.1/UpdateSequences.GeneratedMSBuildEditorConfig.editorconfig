@@ -1,6 +1,6 @@
 is_global = true
 build_property.RootNamespace = UpdateSequences
-build_property.ProjectDir = /home/slash/Code/crabGaming/
+build_property.ProjectDir = /home/slash/Code/UpdateSequences/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTUseWindowsUIXamlProjections = false
