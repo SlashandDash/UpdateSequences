@@ -320,7 +320,7 @@ namespace UpdateSequences
             {
                 if (seqBoolDifficulty[0] == false)
                 {
-                    GameUiChatBox.Instance.ForceMessage("Error: Easy seq is already disalbe!");
+                    GameUiChatBox.Instance.ForceMessage("Error: Easy seq is already disabled!");
                     return;
                 }
 
