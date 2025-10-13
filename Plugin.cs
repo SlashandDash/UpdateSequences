@@ -40,6 +40,36 @@ namespace UpdateSequences
             Log.LogInfo("Mod created by Slash and Dash");
             ClassInjector.RegisterTypeInIl2Cpp<MyClass>();
 
+            if (File.Exists(configFile))
+            {
+                using (StreamReader reader = new StreamReader(configFile))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        switch (line)
+                        {
+                            case "Easy = false":
+                                seqBoolDifficulty[0] = false;
+                                break;
+                            case "Normal = false":
+                                seqBoolDifficulty[1] = false;
+                                break;
+                            case "Hard = false":
+                                seqBoolDifficulty[2] = false;
+                                break;
+                            case "Harder = false":
+                                seqBoolDifficulty[3] = false;
+                                break;
+                            case "Insane = false":
+                                seqBoolDifficulty[4] = false;
+                                break;
+                        }
+
+                    }
+                }
+
+            }
 
             if (!Directory.Exists(seqDirectory))
             {
