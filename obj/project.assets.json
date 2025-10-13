@@ -2766,14 +2766,14 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/slash/Code/UpdateSequences/UpdateSequences.csproj",
+      "projectUniqueName": "/home/slash/Code/crabgame/github/UpdateSequences/UpdateSequences.csproj",
       "projectName": "UpdateSequences",
-      "projectPath": "/home/slash/Code/UpdateSequences/UpdateSequences.csproj",
+      "projectPath": "/home/slash/Code/crabgame/github/UpdateSequences/UpdateSequences.csproj",
       "packagesPath": "/home/slash/.cache/NuGetPackages",
-      "outputPath": "/home/slash/Code/UpdateSequences/obj/",
+      "outputPath": "/home/slash/Code/crabgame/github/UpdateSequences/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/slash/Code/UpdateSequences/NuGet.Config",
+        "/home/slash/Code/crabgame/github/UpdateSequences/NuGet.Config",
         "/home/slash/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
@@ -2831,7 +2831,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.109/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.110/RuntimeIdentifierGraph.json"
       }
     }
   }

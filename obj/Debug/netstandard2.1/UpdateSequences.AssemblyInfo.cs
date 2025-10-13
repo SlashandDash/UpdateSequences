@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("A template of crabgame mod")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+40d5cbe972925d6c429f0aa1ee75e98e19c34f35")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e90feec173af2662d3e79dfcc08fe4d6f622454f")]
 [assembly: System.Reflection.AssemblyProductAttribute("UpdateSequences")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UpdateSequences")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

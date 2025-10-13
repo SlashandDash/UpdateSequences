@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "n+r/I4VZ8xk=",
+  "dgSpecHash": "R1cyt6OBp54=",
   "success": true,
-  "projectFilePath": "/home/slash/Code/UpdateSequences/UpdateSequences.csproj",
+  "projectFilePath": "/home/slash/Code/crabgame/github/UpdateSequences/UpdateSequences.csproj",
   "expectedPackageFiles": [
     "/home/slash/.cache/NuGetPackages/bepinex.core/6.0.0-pre.1/bepinex.core.6.0.0-pre.1.nupkg.sha512",
     "/home/slash/.cache/NuGetPackages/bepinex.il2cpp/6.0.0-pre.1/bepinex.il2cpp.6.0.0-pre.1.nupkg.sha512",
