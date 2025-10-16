@@ -34,7 +34,7 @@ namespace UpdateSequences
 
         static bool[] seqBoolDifficulty = { true, true, true, true, true };
 
-        public override async void Load()
+        public override void Load()
         {
             Harmony.CreateAndPatchAll(typeof(Plugin));
             Log.LogInfo("Mod created by Slash and Dash");
@@ -84,37 +84,6 @@ namespace UpdateSequences
                 }
             }
 
-            string orgTextHash = File.ReadAllText(trueCommitHash_path);
-
-            await getCommitHash("https://api.github.com/repos/SlashandDash/SequencedDropSequences/commits/master", tempCommitHash_path);
-            string newTextHash = File.ReadAllText(tempCommitHash_path);
-
-            if (orgTextHash != newTextHash)
-            {
-                File.Delete(trueCommitHash_path);
-                await getCommitHash("https://api.github.com/repos/SlashandDash/SequencedDropSequences/commits/master", trueCommitHash_path);
-
-                if (File.Exists(seqDirectory + "\\README.md"))
-                {
-                    File.Delete(seqDirectory + "\\README.md");
-                    foreach (string file in Directory.GetFiles(seqDirectory, "[*] *.txt"))
-                    {
-                        File.Delete(file);
-                    }
-                }
-
-                if (Directory.Exists(seqDirectory + "\\Difficulty"))
-                {
-                    Directory.Delete(seqDirectory + "\\Difficulty", true);
-                }
-
-                await downloadTs("https://github.com/SlashandDash/SequencedDropSequences/archive/refs/heads/master.zip", System.IO.Directory.GetParent(Application.dataPath).ToString() + "\\a.zip", System.IO.Directory.GetParent(Application.dataPath).ToString(), seqDirectory);
-
-                createConfigFile();
-                CopyFiles();
-            }
-
-            File.Delete(tempCommitHash_path);
         }
 
 
