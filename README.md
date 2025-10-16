@@ -1,6 +1,6 @@
 # UpdateSequences
 
-A mod that adds/updates sequences from my seq repository to your Sequenced Folder. It will check for updates every restart or via a command. You can enable or disable sequences of each difficulty without restarting the game.
+A mod that adds/updates sequences from my seq repository to your Sequenced Folder. It will check for updates from a command. You can enable or disable sequences of each difficulty without restarting the game.
 
 commands :
 
