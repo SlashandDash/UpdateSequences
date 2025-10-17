@@ -33,12 +33,15 @@ namespace UpdateSequences
         };
 
         static bool[] seqBoolDifficulty = { true, true, true, true, true };
+        static bool isSeqUpdatedCommand;
 
         public override void Load()
         {
             Harmony.CreateAndPatchAll(typeof(Plugin));
             Log.LogInfo("Mod created by Slash and Dash");
             ClassInjector.RegisterTypeInIl2Cpp<MyClass>();
+
+            isSeqUpdatedCommand = false;
 
             if (File.Exists(configFile))
             {
@@ -90,8 +93,30 @@ namespace UpdateSequences
         public class MyClass : MonoBehaviour
         {
             string seqDirectory = System.IO.Directory.GetParent(Application.dataPath).ToString() + "\\BepInEx\\plugins\\SequencedDropSequences\\";
+
+            private float time;
+
             void Update()
             {
+                if (isSeqUpdatedCommand) return;
+
+
+                if (LobbyManager.Instance.gameMode.id == 0)
+                {
+                    time += Time.deltaTime;
+                }
+                else
+                {
+                    time = 0f;
+                }
+
+
+                if (time > 3f)
+                {
+                    refetchSeq();
+                    isSeqUpdatedCommand = true;
+                }
+
             }
         }
 
@@ -218,71 +243,76 @@ namespace UpdateSequences
             File.WriteAllLines(fileName, arrLine);
         }
 
+        static async Task refetchSeq()
+        {
+
+            GameUiChatBox.Instance.ForceMessage("Fetching Sequenced Repository ...");
+
+            if (!Directory.Exists(seqDirectory))
+            {
+                Directory.CreateDirectory(seqDirectory);
+            }
+
+
+            if (!File.Exists(trueCommitHash_path))
+            {
+                using (StreamWriter writer = new StreamWriter(trueCommitHash_path))
+                {
+                    writer.WriteLine("Nothing");
+                }
+            }
+
+            string orgTextHash = File.ReadAllText(trueCommitHash_path);
+
+            await getCommitHash("https://api.github.com/repos/SlashandDash/SequencedDropSequences/commits/master", tempCommitHash_path);
+            string newTextHash = File.ReadAllText(tempCommitHash_path);
+
+            if (orgTextHash != newTextHash)
+            {
+                GameUiChatBox.Instance.ForceMessage("New Seq file detected in the repository, updating ...");
+
+                File.Delete(trueCommitHash_path);
+                await getCommitHash("https://api.github.com/repos/SlashandDash/SequencedDropSequences/commits/master", trueCommitHash_path);
+
+                if (File.Exists(seqDirectory + "\\README.md"))
+                {
+                    File.Delete(seqDirectory + "\\README.md");
+
+                    foreach (string file in Directory.GetFiles(seqDirectory, "[*] *.txt"))
+                    {
+                        File.Delete(file);
+                    }
+                }
+
+                if (Directory.Exists(seqDirectory + "\\Difficulty"))
+                {
+                    Directory.Delete(seqDirectory + "\\Difficulty", true);
+                }
+
+
+                await downloadTs("https://github.com/SlashandDash/SequencedDropSequences/archive/refs/heads/master.zip", System.IO.Directory.GetParent(Application.dataPath).ToString() + "\\a.zip", System.IO.Directory.GetParent(Application.dataPath).ToString(), seqDirectory);
+
+                createConfigFile();
+                CopyFiles();
+
+                GameUiChatBox.Instance.ForceMessage("Update complete!");
+            }
+            else
+            {
+                GameUiChatBox.Instance.ForceMessage("Repository is already up to date!");
+            }
+
+            File.Delete(tempCommitHash_path);
+        }
 
 
         [HarmonyPatch(typeof(GameUiChatBox), nameof(GameUiChatBox.SendMessage))]
         [HarmonyPrefix]
-        static async void OnSendMessagePre(string param_1)
+        static void OnSendMessagePre(string param_1)
         {
             if (param_1 == ".seq fetch")
             {
-                GameUiChatBox.Instance.ForceMessage("Fetching Sequenced Repository ...");
-
-                if (!Directory.Exists(seqDirectory))
-                {
-                    Directory.CreateDirectory(seqDirectory);
-                }
-
-
-                if (!File.Exists(trueCommitHash_path))
-                {
-                    using (StreamWriter writer = new StreamWriter(trueCommitHash_path))
-                    {
-                        writer.WriteLine("Nothing");
-                    }
-                }
-
-                string orgTextHash = File.ReadAllText(trueCommitHash_path);
-
-                await getCommitHash("https://api.github.com/repos/SlashandDash/SequencedDropSequences/commits/master", tempCommitHash_path);
-                string newTextHash = File.ReadAllText(tempCommitHash_path);
-
-                if (orgTextHash != newTextHash)
-                {
-                    GameUiChatBox.Instance.ForceMessage("New Seq file detected in the repository, updating ...");
-
-                    File.Delete(trueCommitHash_path);
-                    await getCommitHash("https://api.github.com/repos/SlashandDash/SequencedDropSequences/commits/master", trueCommitHash_path);
-
-                    if (File.Exists(seqDirectory + "\\README.md"))
-                    {
-                        File.Delete(seqDirectory + "\\README.md");
-
-                        foreach (string file in Directory.GetFiles(seqDirectory, "[*] *.txt"))
-                        {
-                            File.Delete(file);
-                        }
-                    }
-
-                    if (Directory.Exists(seqDirectory + "\\Difficulty"))
-                    {
-                        Directory.Delete(seqDirectory + "\\Difficulty", true);
-                    }
-
-
-                    await downloadTs("https://github.com/SlashandDash/SequencedDropSequences/archive/refs/heads/master.zip", System.IO.Directory.GetParent(Application.dataPath).ToString() + "\\a.zip", System.IO.Directory.GetParent(Application.dataPath).ToString(), seqDirectory);
-
-                    createConfigFile();
-                    CopyFiles();
-
-                    GameUiChatBox.Instance.ForceMessage("Update completed!");
-                }
-                else
-                {
-                    GameUiChatBox.Instance.ForceMessage("Repository is already up to date!");
-                }
-
-                File.Delete(tempCommitHash_path);
+                refetchSeq();
             }
 
             if (param_1 == ".seq disable easy")
