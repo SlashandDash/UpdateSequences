@@ -74,19 +74,6 @@ namespace UpdateSequences
 
             }
 
-            if (!Directory.Exists(seqDirectory))
-            {
-                Directory.CreateDirectory(seqDirectory);
-            }
-
-            if (!File.Exists(trueCommitHash_path))
-            {
-                using (StreamWriter writer = new StreamWriter(trueCommitHash_path))
-                {
-                    writer.WriteLine("Nothing");
-                }
-            }
-
         }
 
 
@@ -258,7 +245,7 @@ namespace UpdateSequences
             {
                 using (StreamWriter writer = new StreamWriter(trueCommitHash_path))
                 {
-                    writer.WriteLine("Nothing");
+                    writer.WriteLine("");
                 }
             }
 
