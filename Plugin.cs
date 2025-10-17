@@ -215,7 +215,7 @@ namespace UpdateSequences
                     writer.WriteLine("Normal = true");
                     writer.WriteLine("Hard = true");
                     writer.WriteLine("Harder = true");
-                    writer.WriteLine("Insane = true");
+                    writer.WriteLine("Insane = false");
                 }
             }
 
