@@ -97,7 +97,6 @@ namespace UpdateSequences
                     time = 0f;
                 }
 
-
                 if (time > 3f)
                 {
                     refetchSeq();
