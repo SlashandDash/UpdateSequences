@@ -1,0 +1,3 @@
+C:\Users\slash\Documents\CrabTemplate\obj\Debug\netstandard2.1\CrabTemplate.csproj.AssemblyReference.cache
+C:\Users\slash\Documents\CrabTemplate\obj\Debug\netstandard2.1\CrabTemplate.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\slash\Documents\CrabTemplate\obj\Debug\netstandard2.1\CrabTemplate.csproj.CoreCompileInputs.cache
