@@ -14,6 +14,11 @@ using Cpp2IL.Core;
 
 using SequencedDropGameMode;
 
+using BepInEx.Configuration;
+using SteamworksNative;
+
+
+
 
 namespace UpdateSequences
 {
@@ -39,22 +44,39 @@ namespace UpdateSequences
 
         static bool[] isDiff = { true, true, true, true, true };
 
-        static string[] diffString = { Path.Combine(seqRepoSlashDir, "Difficulty", "Easy"),
+        public static string[] diffString = { Path.Combine(seqRepoSlashDir, "Difficulty", "Easy"),
             Path.Combine(seqRepoSlashDir, "Difficulty", "Normal"),
             Path.Combine(seqRepoSlashDir, "Difficulty", "Hard"),
             Path.Combine(seqRepoSlashDir, "Difficulty", "Harder"),
             Path.Combine(seqRepoSlashDir, "Difficulty", "Insane")};
 
-
-        static string[] diffOrgString = { Path.Combine(seqRepoSlashOrgDir, "Difficulty", "Easy"),
+        public static string[] diffOrgString = { Path.Combine(seqRepoSlashOrgDir, "Difficulty", "Easy"),
             Path.Combine(seqRepoSlashOrgDir, "Difficulty", "Normal"),
             Path.Combine(seqRepoSlashOrgDir, "Difficulty", "Hard"),
             Path.Combine(seqRepoSlashOrgDir, "Difficulty", "Harder"),
             Path.Combine(seqRepoSlashOrgDir, "Difficulty", "Insane")};
 
+        public static bool onlyOnceAutoStart = true;
 
-        
+        [HarmonyPatch(typeof(LobbyManager), nameof(LobbyManager.StartLobby))]
+        [HarmonyPostfix]
+        static void AutoStart()
+        {
 
+            bool isTrueAuto = UpdateSequences.Instance.BooleanAutoFetch.Value;
+
+            if (!isTrueAuto && !onlyOnceAutoStart)
+                return;
+
+
+            Task.Run(async () =>
+            {
+                await Task.Delay(15000);
+                Task.Run(() => CompareHash());
+            });
+
+            onlyOnceAutoStart = false;
+        }
 
         [HarmonyPatch(typeof(Chatbox), nameof(Chatbox.SendMessage))]
         [HarmonyPrefix]
@@ -345,18 +367,31 @@ namespace UpdateSequences
                     Chatbox.Instance.ForceMessage(diffName[i] + " = " + isDiff[i].ToString());
                 }
             }
-            if (param_1 == ".help")
+            if (param_1 == ".force")
             {
-                Chatbox.Instance.ForceMessage("-----------------------------------------------");
-                Chatbox.Instance.ForceMessage(".fetch | downloads/updates seqs");
-                Chatbox.Instance.ForceMessage(".list | lists all enabled/disabled difficulties");
-                Chatbox.Instance.ForceMessage(".help | shows all available commands");
+                string oldHash = Path.Combine(updateSequencesDir, "commit_hash_old.txt");
+ 
+                if (File.Exists(oldHash))
+                {
+                    File.Delete(oldHash);
+                }
+
+                Task.Run(() => CompareHash());
+            }
+            if (param_1 == ".help") 
+            {
+                Chatbox.Instance.ForceMessage(".fetch | Downloads/Updates seqs if needed");
+                Chatbox.Instance.ForceMessage(".force | Force Downloads sequences");
+                Chatbox.Instance.ForceMessage(".list | Lists all enabled/disabled difficulties");
+                Chatbox.Instance.ForceMessage(".help | Shows all available commands");
                 Chatbox.Instance.ForceMessage(".enable [DIFFICULTY]");
                 Chatbox.Instance.ForceMessage(".disable [DIFFICULTY]");
                 Chatbox.Instance.ForceMessage(".only [DIFFICULTY]");
                 Chatbox.Instance.ForceMessage("[DIFFICULTY] = easy, normal, hard, harder, insane");
             }
+
         }
+
 
         static async Task DownloadSeqs()
         {
@@ -393,7 +428,7 @@ namespace UpdateSequences
         }
 
 
-        static async Task DownloadHashCommit()
+        public static async Task DownloadHashCommit()
         {
             string filePath = Path.Combine(updateSequencesDir, "commit_hash.txt");
 
@@ -420,12 +455,15 @@ namespace UpdateSequences
         
         static void CompareHash() 
         {
+
             string oldHash = Path.Combine(updateSequencesDir, "commit_hash_old.txt");
             string newHash = Path.Combine(updateSequencesDir, "commit_hash.txt");
 
-            DownloadHashCommit().GetAwaiter().GetResult();
 
             Chatbox.Instance.ForceMessage("Downloading Hash Commit");
+            DownloadHashCommit().GetAwaiter().GetResult();
+
+
 
             if (!File.Exists(oldHash)) {
                 File.Move(newHash, oldHash);
@@ -448,12 +486,15 @@ namespace UpdateSequences
                 DownloadSeqs().GetAwaiter().GetResult();
 
                 for (int i = 0; i < 5; i++){
-                    if (!isDiff[i])
+                    if (!isDiff[i] && Directory.Exists(diffString[i]))
                     {
                         Directory.Delete(diffString[i], true);
                     }    
                 }
             }
+
+            DiffChecker();
+
 
         }
 
@@ -480,7 +521,7 @@ namespace UpdateSequences
             ZipFile.ExtractToDirectory(destinationFolderPath, extractFolderPath, true);
         }
 
-        static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
+        public static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
         {
             var dir = new DirectoryInfo(sourceDir);
 
@@ -528,6 +569,33 @@ namespace UpdateSequences
                 }
                 else {
                     isDiff[i] = false;
+                }
+            }
+        }
+
+        public static void DiffCheckerSupreme() {
+
+            bool lockTs = UpdateSequences.Instance.BooleanLockDiff.Value;
+
+            if (!lockTs) {
+                return;
+            }
+
+
+            bool easy = UpdateSequences.Instance.BooleanEasy.Value;
+            bool normal = UpdateSequences.Instance.BooleanNormal.Value;
+            bool hard = UpdateSequences.Instance.BooleanHard.Value;
+            bool harder = UpdateSequences.Instance.BooleanHarder.Value;
+            bool insane = UpdateSequences.Instance.BooleanInsane.Value;
+
+            bool[] diffArray = { easy, normal, hard, harder, insane };
+
+            for (int i = 0; i < 5; i++) {
+                if (!diffArray[i]) {
+                    if (Directory.Exists(diffString[i])) {
+
+                        Directory.Delete(diffString[i], recursive: true);
+                    }
                 }
             }
         }
