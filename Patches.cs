@@ -39,8 +39,10 @@ namespace UpdateSequences
         static string updateSequencesDir = Path.GetDirectoryName(typeof(UpdateSequences).Assembly.Location);
         static string sequencedDropSequencesDir = Path.Combine(sequencedDropGameModeDir, "SequencedDropSequences");
 
-        static string seqRepoSlashOrgDir = Path.Combine(updateSequencesDir, "SequencedDropSequences-master");
-        static string seqRepoSlashDir = Path.Combine(sequencedDropSequencesDir, "SequencedDropSequences-master");
+        static string renameSeqRepoSlashOrgDir => Path.Combine(updateSequencesDir, "SequencedDropSequences-master");
+
+        static string seqRepoSlashOrgDir => Path.Combine(updateSequencesDir, "SlashandDashSeqsRepo-main");
+        static string seqRepoSlashDir = Path.Combine(sequencedDropSequencesDir, "SlashandDashSeqsRepo");
 
         static bool[] isDiff = { true, true, true, true, true };
 
@@ -65,13 +67,13 @@ namespace UpdateSequences
 
             bool isTrueAuto = UpdateSequences.Instance.BooleanAutoFetch.Value;
 
-            if (!isTrueAuto && !onlyOnceAutoStart)
+            if (!isTrueAuto || !onlyOnceAutoStart)
                 return;
 
 
             Task.Run(async () =>
             {
-                await Task.Delay(15000);
+                await Task.Delay(10000);
                 Task.Run(() => CompareHash());
             });
 
@@ -369,11 +371,13 @@ namespace UpdateSequences
             }
             if (param_1 == ".force")
             {
+
+                DiffChecker();
                 string oldHash = Path.Combine(updateSequencesDir, "commit_hash_old.txt");
  
                 if (File.Exists(oldHash))
                 {
-                    File.Delete(oldHash);
+                    File.AppendAllText(oldHash, "_");
                 }
 
                 Task.Run(() => CompareHash());
@@ -414,6 +418,8 @@ namespace UpdateSequences
                     updateSequencesDir);
 
                 File.Delete(zipPath);
+
+                Directory.Move(renameSeqRepoSlashOrgDir, seqRepoSlashOrgDir);
 
                 CopyDirectory(seqRepoSlashOrgDir, seqRepoSlashDir, true);
 
@@ -456,6 +462,13 @@ namespace UpdateSequences
         static void CompareHash() 
         {
 
+
+            if (updateSequencesDir != Path.Combine(pluginDir, "UpdateSequences")){
+                updateSequencesDir = Path.Combine(pluginDir, "UpdateSequences");
+                Directory.CreateDirectory(updateSequencesDir);
+            }
+
+
             string oldHash = Path.Combine(updateSequencesDir, "commit_hash_old.txt");
             string newHash = Path.Combine(updateSequencesDir, "commit_hash.txt");
 
@@ -463,6 +476,7 @@ namespace UpdateSequences
             Chatbox.Instance.ForceMessage("Downloading Hash Commit");
             DownloadHashCommit().GetAwaiter().GetResult();
 
+            Chatbox.Instance.ForceMessage("A");
 
 
             if (!File.Exists(oldHash)) {
@@ -483,19 +497,36 @@ namespace UpdateSequences
                 File.Delete(oldHash);
                 File.Move(newHash, oldHash);
 
+                bool lockTs = UpdateSequences.Instance.BooleanLockDiff.Value;
+
+                //Chatbox.Instance.ForceMessage("Debug: " + lockTs.ToString());
+                Chatbox.Instance.ForceMessage("Debug: " + lockTs.ToString());
+
+
                 DownloadSeqs().GetAwaiter().GetResult();
 
-                for (int i = 0; i < 5; i++){
-                    if (!isDiff[i] && Directory.Exists(diffString[i]))
-                    {
-                        Directory.Delete(diffString[i], true);
-                    }    
+                Chatbox.Instance.ForceMessage("Debug: " + lockTs.ToString());
+
+                if (lockTs)
+                {
+                    Chatbox.Instance.ForceMessage("Applying config Difficulty");
+                    DiffCheckerSupreme();
                 }
+                else {
+
+                    Chatbox.Instance.ForceMessage("Debug: AAAA");
+                    for (int i = 0; i < 5; i++)
+                    {
+                        if (!isDiff[i] && Directory.Exists(diffString[i]))
+                        {
+                            Directory.Delete(diffString[i], true);
+                        }
+                    }
+                }
+
             }
 
             DiffChecker();
-
-
         }
 
 
@@ -575,12 +606,13 @@ namespace UpdateSequences
 
         public static void DiffCheckerSupreme() {
 
+
             bool lockTs = UpdateSequences.Instance.BooleanLockDiff.Value;
 
-            if (!lockTs) {
+            if (!lockTs)
+            {
                 return;
             }
-
 
             bool easy = UpdateSequences.Instance.BooleanEasy.Value;
             bool normal = UpdateSequences.Instance.BooleanNormal.Value;
@@ -601,3 +633,6 @@ namespace UpdateSequences
         }
     }
 }
+
+
+

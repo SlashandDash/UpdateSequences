@@ -9,7 +9,7 @@ using BepInEx.Configuration;
 namespace UpdateSequences
 {
     //[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-    [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, "0.0.2")]
+    [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
     [BepInDependency("lammas123.SequencedDropGameMode", BepInDependency.DependencyFlags.SoftDependency)]
     public sealed class UpdateSequences : BasePlugin
     {
@@ -86,13 +86,11 @@ namespace UpdateSequences
                 "Enable or disable Insane difficulty."
             );
 
-
+            Patches.DiffCheckerSupreme();
 
 
             Harmony harmony = new(MyPluginInfo.PLUGIN_NAME);
             harmony.PatchAll(typeof(Patches));
-
-            Patches.DiffCheckerSupreme();
 
             Log.LogInfo($"Initialized [{MyPluginInfo.PLUGIN_NAME} v{MyPluginInfo.PLUGIN_VERSION}]");
 
